@@ -7,18 +7,23 @@ import { LandingComponent } from './landing/landing.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PrimerjalnikComponent } from './primerjalnik/primerjalnik.component';
 import { SpremeniVEvrePipe } from './spremeni-v-evre.pipe';
+import { SpremeniDatumPipe } from './spremeni-datum.pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     OgrodjeComponent,
     LandingComponent,
     PrimerjalnikComponent,
-    SpremeniVEvrePipe
+    SpremeniVEvrePipe,
+    SpremeniDatumPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [OgrodjeComponent]
