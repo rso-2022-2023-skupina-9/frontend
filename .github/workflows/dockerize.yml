@@ -35,4 +35,4 @@ jobs:
         with:
           file: ./frontend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/mikrostoritev-za-izdelke:${{ steps.current-time.outputs.formattedTime }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/mikrostoritev-za-frontend:${{ steps.current-time.outputs.formattedTime }}
