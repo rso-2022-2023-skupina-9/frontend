@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mikrstoritev-za-frontend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mikrostoritev-za-frontend
+  template:
+    metadata:
+      labels:
+        app: mikrostoritev-za-frontend
+    spec:
+      containers:
+        - image: zk0821docker/mikrostoritev-za-frontend:2022-12-04-21-19-44
+          name: mikrostoritev-za-frontend
+          ports:
+            - containerPort: 80
+              name: server
+              protocol: TCP
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mikrostoritev-za-frontend
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: mikrostoritev-za-frontend
