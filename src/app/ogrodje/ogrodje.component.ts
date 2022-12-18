@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ogrodje',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ogrodje.component.css']
 })
 export class OgrodjeComponent implements OnInit {
+  public currentPage: number = 0;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  public redirect(url: string, value: number) {
+    this.router.navigate([url]);
+    this.currentPage = value;
   }
 
 }

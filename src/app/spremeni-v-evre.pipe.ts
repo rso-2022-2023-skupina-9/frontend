@@ -7,7 +7,8 @@ export class SpremeniVEvrePipe implements PipeTransform {
 
   transform(centi: number): string {
     let valuta = "€";
-    return `${centi / 100} ${valuta}`;
+    let evri = (centi / 100).toFixed(2);
+    return `${evri} ${valuta}`;
   }
 
 }

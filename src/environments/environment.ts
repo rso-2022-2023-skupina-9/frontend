@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080/v1'
+  mikrostoritevZaIzdelkeUrl: 'http://localhost:8080/v1',
+  mikrostoritevZaKosariceUrl: 'http://localhost:8081/v1'
 };
 
 /*

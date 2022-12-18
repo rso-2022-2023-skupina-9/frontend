@@ -1,12 +1,12 @@
 
-<nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
+<nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900">
     <div class="container flex flex-wrap justify-between items-center mx-auto">
-        <a href="https://flowbite.com/" class="flex items-center">
+        <a routerLink="/" class="flex items-center">
             <img src="../../assets/euro-price-tag-icon.svg" class="mr-3 h-6 sm:h-9" alt="Primerjalnik Cen Logo">
             <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Primerjalnik cen</span>
         </a>
         <div class="flex md:order-2">
-            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Get started</button>
+            <button routerLink="/primerjalnik" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Prični</button>
             <button data-collapse-toggle="navbar-cta" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-cta" aria-expanded="false">
                 <span class="sr-only">Open main menu</span>
                 <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
@@ -15,16 +15,16 @@
         <div class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="navbar-cta">
             <ul class="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                 <li>
-                    <a routerLink = "/" class="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" aria-current="page">Home</a>
+                    <a (click)="redirect('/', 0)" class="hover:cursor-pointer block py-2 pr-4 pl-3 bg-blue-700 rounded md:bg-transparent md:p-0" aria-current="page" [ngClass]="{'text-white': currentPage == 0, 'text-gray-400': currentPage != 0}">Domov</a>
                 </li>
                 <li>
-                    <a routerLink = "/primerjalnik" class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Primerjalnik cen</a>
+                    <a (click)="redirect('/primerjalnik', 1)" class="hover:cursor-pointer block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" [ngClass]="{'text-white': currentPage == 1, 'text-gray-400': currentPage != 1}">Primerjalnik cen</a>
                 </li>
                 <li>
-                    <a href="#" class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Košarica</a>
+                    <a (click)="redirect('/kosarica', 2)" class="hover:cursor-pointer block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" [ngClass]="{'text-white': currentPage == 2, 'text-gray-400': currentPage != 2}">Košarica</a>
                 </li>
                 <li>
-                    <a href="#" class="block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Priljubljeni izdelki</a>
+                    <a (click)="redirect('/priljubljeni', 3)" class="hover:cursor-pointer block py-2 pr-4 pl-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" [ngClass]="{'text-white': currentPage == 3, 'text-gray-400': currentPage != 3}">Priljubljeni izdelki</a>
                 </li>
             </ul>
         </div>
@@ -44,7 +44,7 @@
                 <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Follow us</h2>
                 <ul class="text-gray-600 dark:text-gray-400">
                     <li class="mb-4">
-                        <a href="https://github.com/themesberg/flowbite" class="hover:underline ">Github</a>
+                        <a href="https://github.com/rso-2022-2023-skupina-9" class="hover:underline ">Github</a>
                     </li>
                 </ul>
             </div>
@@ -55,7 +55,7 @@
         <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2022 <a href="https://flowbite.com/" class="hover:underline">Primerjalnik cen</a>. All Rights Reserved.
         </span>
         <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
-            <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+            <a href="https://github.com/rso-2022-2023-skupina-9" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
                 <span class="sr-only">GitHub account</span>
             </a>

@@ -9,6 +9,11 @@ import { PrimerjalnikComponent } from './primerjalnik/primerjalnik.component';
 import { SpremeniVEvrePipe } from './spremeni-v-evre.pipe';
 import { SpremeniDatumPipe } from './spremeni-datum.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PrimerjalnikVrstaComponent } from './primerjalnik-vrsta/primerjalnik-vrsta.component';
+import { PrimerjalnikTrgovinaComponent } from './primerjalnik-trgovina/primerjalnik-trgovina.component';
+import { KosaricaComponent } from './kosarica/kosarica.component';
+import { PriljubljeniIzdelkiComponent } from './priljubljeni-izdelki/priljubljeni-izdelki.component';
+import { KosaricaIzdelekComponent } from './kosarica-izdelek/kosarica-izdelek.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +21,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LandingComponent,
     PrimerjalnikComponent,
     SpremeniVEvrePipe,
-    SpremeniDatumPipe
+    SpremeniDatumPipe,
+    PrimerjalnikVrstaComponent,
+    PrimerjalnikTrgovinaComponent,
+    KosaricaComponent,
+    PriljubljeniIzdelkiComponent,
+    KosaricaIzdelekComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,35 @@
+<div class="bg-gray-600 px-6 pt-2 min-h-screen">
+    <div class="font-bold text-2xl mb-1 text-slate-200">Košarica</div>
+    <div class="font-bold text-3xl text-white inline-flex items-center" *ngIf="kosarica">
+        <p>{{kosarica.ime}}</p>
+    </div>
+    <div class="pt-6 pr-6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-5"
+        *ngIf="kosarica && kosarica.izdelki">
+        <div class="rounded overflow-hidden shadow-lg bg-gray-800" *ngFor="let izdelek of kosarica.izdelki">
+            <div class="px-6 py-4">
+                <div class="font-bold text-sm mb-1 text-slate-400">Ime</div>
+                <div class="font-bold text-xl mb-2 text-slate-100">{{izdelek.ime}}</div>
+                <div class="font-bold text-sm mb-1 text-slate-400">Trgovina</div>
+                <div class="font-bold text-xl mb-2 text-slate-100">{{izdelek.trgovina.ime}}</div>
+                <div class="font-bold text-sm mb-1 text-slate-400">Vrsta</div>
+                <div class="font-bold text-xl mb-2 text-slate-100">{{izdelek.vrsta.vrsta}}</div>
+                <div class="font-bold text-sm mb-1 text-slate-400">Cena</div>
+                <div class="font-bold text-xl mb-2 text-slate-100">{{izdelek.cena | spremeniVEvre}}</div>
+            </div>
+            <a (click)="odstraniIzKosarice(izdelek)"
+                class="m-2 hover:cursor-pointer inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                Odstrani iz košarice
+                <svg class="ml-3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    version="1.1" id="Layer_1" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 457.503 457.503"
+                    style="enable-background:new 0 0 457.503 457.503;" xml:space="preserve">
+                    <g>
+                        <g>
+                            <path fill="white"
+                                d="M381.575,57.067h-90.231C288.404,25.111,261.461,0,228.752,0C196.043,0,169.1,25.111,166.16,57.067H75.929    c-26.667,0-48.362,21.695-48.362,48.362c0,26.018,20.655,47.292,46.427,48.313v246.694c0,31.467,25.6,57.067,57.067,57.067    h195.381c31.467,0,57.067-25.6,57.067-57.067V153.741c25.772-1.02,46.427-22.294,46.427-48.313    C429.936,78.761,408.242,57.067,381.575,57.067z M165.841,376.817c0,8.013-6.496,14.509-14.508,14.509    c-8.013,0-14.508-6.496-14.508-14.509V186.113c0-8.013,6.496-14.508,14.508-14.508c8.013,0,14.508,6.496,14.508,14.508V376.817z     M243.26,376.817c0,8.013-6.496,14.509-14.508,14.509c-8.013,0-14.508-6.496-14.508-14.509V186.113    c0-8.013,6.496-14.508,14.508-14.508c8.013,0,14.508,6.496,14.508,14.508V376.817z M320.679,376.817    c0,8.013-6.496,14.509-14.508,14.509c-8.013,0-14.509-6.496-14.509-14.509V186.113c0-8.013,6.496-14.508,14.509-14.508    s14.508,6.496,14.508,14.508V376.817z" />
+                        </g>
+                    </g>
+                </svg>
+            </a>
+        </div>
+    </div>
+</div>
