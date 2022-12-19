@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, retry, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { CenaKosarice } from './cena-kosarice';
 import { Izdelek } from './izdelek';
 import { Kosarica } from './kosarica';
 
@@ -47,6 +48,11 @@ export class StoritevZaKosariceService {
   public odstraniIzdelekIzKosarice(kosaricaID: number, izdelekID: number): Observable<Kosarica> {
     const url: string = `${this.mikrostoritevZaKosariceUrl}/kosarice/${kosaricaID}/izdelki/${izdelekID}`;
     return this.http.delete<Kosarica>(url).pipe(retry(1), catchError(this.napakaHandler));
+  }
+
+  public calculateCenaKosarica(kosaricaID: number): Observable<CenaKosarice> {
+    const url: string = `${this.mikrostoritevZaKosariceUrl}/kosarice/${kosaricaID}/cena`;
+    return this.http.get<CenaKosarice>(url).pipe(retry(1), catchError(this.napakaHandler));
   }
   
   private napakaHandler(napaka: HttpErrorResponse) {

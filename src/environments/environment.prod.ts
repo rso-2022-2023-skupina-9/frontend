@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://34.141.157.180:8080/v1'
+  mikrostoritevZaIzdelkeUrl: 'http://34.141.157.180:8080/v1',
+  mikrostoritevZaKosariceUrl: 'http://34.141.157.180:8081/v1'
 };

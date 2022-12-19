@@ -12,6 +12,7 @@ import { StoritevZaKosariceService } from '../storitev-za-kosarice.service';
 export class KosaricaIzdelekComponent implements OnInit {
   public kosarica: null | Kosarica = null;
   public id: number = -1;
+  public cena: number = -1;
 
   constructor(private storitevZaKosarice: StoritevZaKosariceService, private route: ActivatedRoute) { }
 
@@ -20,6 +21,7 @@ export class KosaricaIzdelekComponent implements OnInit {
       this.id = +params['id']
     })
     this.pridobiKosarico(this.id);
+    this.izracunajCenoKosarice(this.id);
   }
 
   private pridobiKosarico = (id: number) => {
@@ -33,8 +35,15 @@ export class KosaricaIzdelekComponent implements OnInit {
       this.storitevZaKosarice.odstraniIzdelekIzKosarice(this.kosarica.kosarica_id, izdelek.izdelek_id).subscribe((kosarica) => {
         console.log("Izdelek uspesno odstranjen iz kosarice!")
         this.pridobiKosarico(this.id);
+        this.izracunajCenoKosarice(this.id);
       })
     }
+  }
+
+  private izracunajCenoKosarice = (kosaricaID: number) => {
+    this.storitevZaKosarice.calculateCenaKosarica(kosaricaID).subscribe((pridobljenaCena) => {
+      this.cena = pridobljenaCena.cena;
+    })
   }
 
 }
