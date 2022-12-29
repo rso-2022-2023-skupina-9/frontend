@@ -16,9 +16,9 @@
         </a>
     </div>
     <div class="font-bold text-xl mb-1 text-slate-300">Sedež</div>
-    <div class="font-bold text-2xl mb-1 text-slate-200" *ngIf="trgovina">{{trgovina.sedez}}</div>
+    <div class="font-bold text-2xl mb-1 text-slate-100" *ngIf="trgovina">{{trgovina.sedez}}</div>
     <div class="font-bold text-xl mb-1 text-slate-300">Ustanovitev</div>
-    <div class="font-bold text-2xl mb-1 text-slate-200" *ngIf="trgovina">{{trgovina.ustanovitev | spremeniDatum}}</div>
+    <div class="font-bold text-2xl mb-1 text-slate-100" *ngIf="trgovina">{{trgovina.ustanovitev | spremeniDatum}}</div>
     <div *ngIf="izdelkiMessage != ''" class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3"
         role="alert">
         <p class="font-bold">Informacijsko sporočilo</p>
@@ -35,7 +35,7 @@
                 <div class="font-bold text-sm mb-1 text-slate-400">Cena</div>
                 <div class="font-bold text-xl mb-2 text-slate-100">{{izdelek.cena | spremeniVEvre}}</div>
             </div>
-            <a [routerLink]="['/primerjalnik/vrsta', trgovina.trgovina_id]"
+            <a (click) = "kosaricaModal = !kosaricaModal; selectedIzdelek = izdelek"
                 class="m-2 hover:cursor-pointer inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                 Dodaj v košarico
                 <svg class="ml-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -77,6 +77,15 @@
                     </g>
                 </svg>
             </a>
+            <a (click)="pretvoriUSD(izdelek)"
+            class="m-2 hover:cursor-pointer inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-violet-600 dark:hover:bg-violet-700 dark:focus:ring-violet-800">
+            Pretvori
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="20px" width="20px" version="1.1" id="Capa_1" viewBox="0 0 235.517 235.517" xml:space="preserve">
+                    <g>
+                        <path style="fill:white;" d="M118.1,235.517c7.898,0,14.31-6.032,14.31-13.483c0-7.441,0-13.473,0-13.473   c39.069-3.579,64.932-24.215,64.932-57.785v-0.549c0-34.119-22.012-49.8-65.758-59.977V58.334c6.298,1.539,12.82,3.72,19.194,6.549   c10.258,4.547,22.724,1.697,28.952-8.485c6.233-10.176,2.866-24.47-8.681-29.654c-11.498-5.156-24.117-8.708-38.095-10.236V8.251   c0-4.552-6.402-8.251-14.305-8.251c-7.903,0-14.31,3.514-14.31,7.832c0,4.335,0,7.843,0,7.843   c-42.104,3.03-65.764,25.591-65.764,58.057v0.555c0,34.114,22.561,49.256,66.862,59.427v33.021   c-10.628-1.713-21.033-5.243-31.623-10.65c-11.281-5.755-25.101-3.72-31.938,6.385c-6.842,10.1-4.079,24.449,7.294,30.029   c16.709,8.208,35.593,13.57,54.614,15.518v13.755C103.79,229.36,110.197,235.517,118.1,235.517z M131.301,138.12   c14.316,4.123,18.438,8.257,18.438,15.681v0.555c0,7.979-5.776,12.651-18.438,14.033V138.12z M86.999,70.153v-0.549   c0-7.152,5.232-12.657,18.71-13.755v29.719C90.856,81.439,86.999,77.305,86.999,70.153z"/>
+                    </g>
+                </svg>
+            </a>
         </div>
     </div>
 </div>
@@ -104,6 +113,7 @@
                             izdelka: </label>
                         <select formControlName="vrsta" name="vrsta" id="vrsta" required
                             class="bg-gray-50 border border-gray-300 text-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option [value]="-1" [disabled]="true" [selected]="true">Izberi vrsto izdelka</option>
                             <option *ngFor="let vrsta of vrste" [value]="vrsta.vrsta_id">{{vrsta.vrsta}}</option>
                         </select>
                     </div>
@@ -112,6 +122,7 @@
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Trgovina: </label>
                         <select formControlName="trgovina" name="trgovina" id="trgovina" required
                             class="bg-gray-50 border border-gray-300 text-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option [value]="-1" [disabled]="true" [selected]="true">Izberi trgovino</option>
                             <option *ngFor="let trgovina of trgovine" [value]="trgovina.trgovina_id">{{trgovina.ime}}
                             </option>
                         </select>
@@ -190,6 +201,66 @@
                     <button type="submit" [disabled]="!urediIzdelekForm.valid"
                         class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:bg-blue-700">Uredi</button>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div [hidden]="!kosaricaModal" id="add-izdelek-to-kosarica-modal"
+    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-600 bg-opacity-50 w-full h-full">
+    <div class="relative w-full max-w-md h-full md:h-auto">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button"
+                class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                data-modal-toggle="add-izdelek-to-kosarica-modal">
+                <svg (click)="kosaricaModal = !kosaricaModal" aria-hidden="true" class="w-5 h-5" fill="currentColor"
+                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="py-6 px-6 lg:px-8">
+                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Dodaj izdelek v košarico</h3>
+                <form class="space-y-6" [formGroup]="dodajVKosaricoForm" (ngSubmit)="dodajVKosarico()">
+                    <div>
+                        <label for="kosarica" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Košarica</label>
+                        <select formControlName="kosarica" name="kosarica" id="kosarica" required
+                            class="bg-gray-50 border border-gray-300 text-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option [value]="null" [disabled]="true" [selected]="true">Izberi košarico</option>
+                            <option *ngFor="let kosarica of kosarice" [value]="kosarica.kosarica_id">{{kosarica.ime}}</option>
+                        </select>
+                    </div>
+                    <button type="submit" [disabled]="!dodajVKosaricoForm.valid"
+                        class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:bg-blue-700">Dodaj</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div [hidden]="!pretvorbaModal" id="pretvorba-v-usd-modal"
+    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-600 bg-opacity-50 w-full h-full">
+    <div class="relative w-full max-w-md h-full md:h-auto">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button"
+                class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                data-modal-toggle="pretvorba-v-usd-modal">
+                <svg (click)="pretvorbaModal = !pretvorbaModal" aria-hidden="true" class="w-5 h-5" fill="currentColor"
+                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="py-6 px-6 lg:px-8" *ngIf="zadnjaPretvorba">
+                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Pretvorba v $</h3>
+                <div class="font-bold text-sm mb-1 text-slate-400">Prvotni znesek</div>
+                <div class="font-bold text-xl mb-2 text-slate-100">{{zadnjaPretvorba.old_amount}} {{zadnjaPretvorba.old_currency}}</div>
+                <div class="font-bold text-sm mb-1 text-slate-400">Pretvorjen znesek</div>
+                <div class="font-bold text-xl mb-2 text-slate-100">{{zadnjaPretvorba.new_amount}} {{zadnjaPretvorba.new_currency}}</div>
             </div>
         </div>
     </div>

@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { CurrencyRequest } from '../currency-request';
+import { CurrencyResponse } from '../currency-response';
 import { Izdelek } from '../izdelek';
+import { Kosarica } from '../kosarica';
 import { StoritevZaIzdelkeService } from '../storitev-za-izdelke.service';
+import { StoritevZaKosariceService } from '../storitev-za-kosarice.service';
 import { Trgovina } from '../trgovina';
 import { Vrsta } from '../vrsta';
 
@@ -18,8 +22,13 @@ export class PrimerjalnikTrgovinaComponent implements OnInit {
   public vrste: Vrsta[] = [];
   public trgovineMessage: string = "";
   public trgovine: Trgovina[] = [];
+  public kosaricaModal: boolean = false;
+  public kosarice: Kosarica[] = [];
+  public selectedIzdelek: Izdelek | null = null;
+  public pretvorbaModal: boolean = false;
+  public zadnjaPretvorba: CurrencyResponse | null = null;
 
-  constructor(private storitevZaIzdelke: StoritevZaIzdelkeService, private formBuilder: FormBuilder, private route: ActivatedRoute) { }
+  constructor(private storitevZaIzdelke: StoritevZaIzdelkeService, private storitevZaKosarice: StoritevZaKosariceService, private formBuilder: FormBuilder, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -28,12 +37,14 @@ export class PrimerjalnikTrgovinaComponent implements OnInit {
     this.pridobiTrgovino(this.id)
     this.pridobiVrste();
     this.pridobiTrgovine();
+    this.pridobiKosarice();
   }
 
   ngOnDestroy(): void {
     this.pridobiTrgovino(this.id)
     this.pridobiVrste();
     this.pridobiTrgovine();
+    this.pridobiKosarice();
   }
 
   private pridobiTrgovino = (id: number) => {
@@ -55,6 +66,13 @@ export class PrimerjalnikTrgovinaComponent implements OnInit {
     this.storitevZaIzdelke.pridobiTrgovine().subscribe((pridobljeneTrgovine) => {
       this.trgovineMessage = "";
       this.trgovine = pridobljeneTrgovine;
+    })
+  }
+
+  private pridobiKosarice = () => {
+    this.storitevZaKosarice.pridobiKosarice().subscribe((pridobljeneKosarice) => {
+      console.log(pridobljeneKosarice)
+      this.kosarice = pridobljeneKosarice;
     })
   }
 
@@ -190,6 +208,36 @@ export class PrimerjalnikTrgovinaComponent implements OnInit {
       } else {
         this.izdelkiMessage = "Izdelka ni bilo mogoce izbrisati!"
       }
+    })
+  }
+
+  public dodajVKosaricoForm = new FormGroup({
+    kosarica: new FormControl(null, Validators.required)
+  })
+
+  public dodajVKosarico = () => {
+    console.log("Dodajanje v kosarico: ", this.dodajVKosaricoForm.value['kosarica'])
+    this.kosaricaModal = false;
+    let id = this.dodajVKosaricoForm.value['kosarica'];
+    if (id && this.selectedIzdelek) {
+      this.storitevZaKosarice.dodajIzdelekVKosarico(id, this.selectedIzdelek).subscribe((dodanIzdelek) => {
+        console.log("Dodan izdelek: ", dodanIzdelek);
+      })
+    } else {
+      console.log("Noben izdelek ni izbran!!!")
+    }
+  }
+
+  public pretvoriUSD(izdelek: Izdelek) { 
+    let currencyRequest: CurrencyRequest = new CurrencyRequest();
+    currencyRequest.have = "EUR";
+    currencyRequest.want = "USD";
+    currencyRequest.amount = (izdelek.cena / 100);
+    console.log("AMOUNT: ", currencyRequest.amount);
+    this.storitevZaIzdelke.spremeniValuto(currencyRequest).subscribe((novaValuta) => {
+      console.log(novaValuta);
+      this.pretvorbaModal = true;
+      this.zadnjaPretvorba = novaValuta;
     })
   }
 

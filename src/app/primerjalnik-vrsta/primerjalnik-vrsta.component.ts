@@ -7,6 +7,8 @@ import { Izdelek } from '../izdelek';
 import { Trgovina } from '../trgovina';
 import { Kosarica } from '../kosarica';
 import { StoritevZaKosariceService } from '../storitev-za-kosarice.service';
+import { CurrencyRequest } from '../currency-request';
+import { CurrencyResponse } from '../currency-response';
 
 @Component({
   selector: 'app-primerjalnik-vrsta',
@@ -23,6 +25,8 @@ export class PrimerjalnikVrstaComponent implements OnInit {
   public kosaricaModal: boolean = false;
   public kosarice: Kosarica[] = [];
   public selectedIzdelek: Izdelek | null = null;
+  public pretvorbaModal: boolean = false;
+  public zadnjaPretvorba: CurrencyResponse | null = null;
 
   constructor(private storitevZaIzdelke: StoritevZaIzdelkeService, private storitevZaKosarice: StoritevZaKosariceService, private formBuilder: FormBuilder, private route: ActivatedRoute) { }
 
@@ -211,6 +215,7 @@ export class PrimerjalnikVrstaComponent implements OnInit {
   })
 
   public dodajVKosarico = () => {
+    console.log("Dodajanje v kosarico: ", this.dodajVKosaricoForm.value['kosarica'])
     this.kosaricaModal = false;
     let id = this.dodajVKosaricoForm.value['kosarica'];
     if (id && this.selectedIzdelek) {
@@ -220,6 +225,19 @@ export class PrimerjalnikVrstaComponent implements OnInit {
     } else {
       console.log("Noben izdelek ni izbran!!!")
     }
+  }
+
+  public pretvoriUSD(izdelek: Izdelek) { 
+    let currencyRequest: CurrencyRequest = new CurrencyRequest();
+    currencyRequest.have = "EUR";
+    currencyRequest.want = "USD";
+    currencyRequest.amount = (izdelek.cena / 100);
+    console.log("AMOUNT: ", currencyRequest.amount);
+    this.storitevZaIzdelke.spremeniValuto(currencyRequest).subscribe((novaValuta) => {
+      console.log(novaValuta);
+      this.pretvorbaModal = true;
+      this.zadnjaPretvorba = novaValuta;
+    })
   }
 
 }

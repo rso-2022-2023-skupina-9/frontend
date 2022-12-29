@@ -6,6 +6,8 @@ import { catchError, retry } from 'rxjs/operators';
 import { Izdelek } from './izdelek';
 import { Trgovina } from './trgovina';
 import { Vrsta } from './vrsta';
+import { CurrencyRequest } from './currency-request';
+import { CurrencyResponse } from './currency-response';
 
 @Injectable({
   providedIn: 'root'
@@ -74,6 +76,11 @@ export class StoritevZaIzdelkeService {
   public izbrisiVrsto(vrstaID: number) {
     const url: string = `${this.mikrostoritevZaIzdelkeUrl}/vrste/${vrstaID}`;
     return this.http.delete(url, {observe: 'response'}).pipe(retry(1), catchError(this.napakaHandler));
+  }
+
+  public spremeniValuto(currencyRequest: CurrencyRequest): Observable<CurrencyResponse> {
+    const url: string = `${this.mikrostoritevZaIzdelkeUrl}/izdelki/valute`;
+    return this.http.post<CurrencyResponse>(url, currencyRequest).pipe(retry(1), catchError(this.napakaHandler));
   }
 
   private napakaHandler(napaka: HttpErrorResponse) {
