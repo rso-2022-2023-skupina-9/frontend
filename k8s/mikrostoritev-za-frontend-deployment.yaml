@@ -13,7 +13,7 @@ spec:
         app: mikrostoritev-za-frontend
     spec:
       containers:
-        - image: zk0821docker/mikrostoritev-za-frontend:2022-12-30-03-59-32
+        - image: zk0821docker/mikrostoritev-za-frontend:2022-12-30-04-19-41
           name: mikrostoritev-za-frontend
           ports:
             - containerPort: 80
