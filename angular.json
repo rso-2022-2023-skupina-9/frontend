@@ -29,6 +29,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/mikrostoritev-za-frontend/",
               "budgets": [
                 {
                   "type": "initial",
